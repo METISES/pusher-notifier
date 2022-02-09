@@ -1,0 +1,196 @@
+<?php
+
+namespace Symfony\Component\Notifier\Bridge\Pusher;
+
+use Symfony\Component\Notifier\Bridge\Pusher\Block\SlackBlockInterface;
+use Symfony\Component\Notifier\Bridge\Pusher\Block\SlackDividerBlock;
+use Symfony\Component\Notifier\Bridge\Pusher\Block\SlackSectionBlock;
+use Symfony\Component\Notifier\Exception\LogicException;
+use Symfony\Component\Notifier\Message\MessageOptionsInterface;
+use Symfony\Component\Notifier\Notification\Notification;
+
+/**
+ * @author Yasmany Cubela Medina <yasmanycm@gmail.com>
+ */
+final class PusherOptions implements MessageOptionsInterface
+{
+    private const MAX_BLOCKS = 50;
+
+    private $options;
+
+    public function __construct(array $options = [])
+    {
+        $this->options = $options;
+
+        if (\count($this->options['blocks'] ?? []) > self::MAX_BLOCKS) {
+            throw new LogicException(sprintf('Maximum number of "blocks" has been reached (%d).', self::MAX_BLOCKS));
+        }
+    }
+
+    public static function fromNotification(Notification $notification): self
+    {
+        $options = new self();
+        $options->iconEmoji($notification->getEmoji());
+        $options->block((new SlackSectionBlock())->text($notification->getSubject()));
+        if ($notification->getContent()) {
+            $options->block((new SlackSectionBlock())->text($notification->getContent()));
+        }
+        if ($exception = $notification->getExceptionAsString()) {
+            $options->block(new SlackDividerBlock());
+            $options->block((new SlackSectionBlock())->text($exception));
+        }
+
+        return $options;
+    }
+
+    public function toArray(): array
+    {
+        $options = $this->options;
+        unset($options['recipient_id']);
+
+        return $options;
+    }
+
+    public function getRecipientId(): ?string
+    {
+        return $this->options['recipient_id'] ?? null;
+    }
+
+    /**
+     * @return $this
+     *
+     * @deprecated since Symfony 5.1, use recipient() instead.
+     */
+    public function channel(string $channel): self
+    {
+        trigger_deprecation('symfony/pusher-notifier', '5.1', 'The "%s()" method is deprecated, use "recipient()" instead.', __METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * @param string $id The hook id (anything after https://hooks.pusher.com/services/)
+     *
+     * @return $this
+     */
+    public function recipient(string $id): self
+    {
+        $this->options['recipient_id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function asUser(bool $bool): self
+    {
+        $this->options['as_user'] = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function block(SlackBlockInterface $block): self
+    {
+        if (\count($this->options['blocks'] ?? []) >= self::MAX_BLOCKS) {
+            throw new LogicException(sprintf('Maximum number of "blocks" has been reached (%d).', self::MAX_BLOCKS));
+        }
+
+        $this->options['blocks'][] = $block->toArray();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function iconEmoji(string $emoji): self
+    {
+        $this->options['icon_emoji'] = $emoji;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function iconUrl(string $url): self
+    {
+        $this->options['icon_url'] = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function linkNames(bool $bool): self
+    {
+        $this->options['link_names'] = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function mrkdwn(bool $bool): self
+    {
+        $this->options['mrkdwn'] = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function parse(string $parse): self
+    {
+        $this->options['parse'] = $parse;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function unfurlLinks(bool $bool): self
+    {
+        $this->options['unfurl_links'] = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function unfurlMedia(bool $bool): self
+    {
+        $this->options['unfurl_media'] = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function username(string $username): self
+    {
+        $this->options['username'] = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function threadTs(string $threadTs): self
+    {
+        $this->options['thread_ts'] = $threadTs;
+
+        return $this;
+    }
+}
