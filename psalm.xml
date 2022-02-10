@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" errorLevel="7" totallyTyped="true"
+       strictBinaryOperands="true" useDocblockPropertyTypes="true"
+       xmlns="https://getpsalm.org/schema/config"
+       xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd">
+    <projectFiles>
+        <directory name=".." />
+        <ignoreFiles>
+            <directory name=".git" />
+            <directory name="vendor"/>
+            <directory name="Tests"/>
+            <file name="phpinsights.php"/>
+            <file name="rector.php"/>
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <MethodSignatureMismatch errorLevel="suppress"/>
+        <UndefinedDocblockClass errorLevel="suppress"/>
+        <MissingFile errorLevel="suppress"/>
+        <UndefinedClass errorLevel="suppress"/>
+        <PluginIssue name="RepositoryStringShortcut" errorLevel="suppress" />
+    </issueHandlers>
+</psalm>

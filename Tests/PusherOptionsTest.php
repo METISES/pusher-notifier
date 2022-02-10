@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symfony\Component\Notifier\Bridge\Pusher\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -8,6 +10,9 @@ use Symfony\Component\Notifier\Notification\Notification;
 
 /**
  * @author Yasmany Cubela Medina <yasmanycm@gmail.com>
+ *
+ * @internal
+ * @coversNothing
  */
 final class PusherOptionsTest extends TestCase
 {
@@ -15,9 +20,9 @@ final class PusherOptionsTest extends TestCase
      * @dataProvider toArrayProvider
      * @dataProvider toArraySimpleOptionsProvider
      */
-    public function testToArray(array $options, array $expected = null)
+    public function testToArray(array $options, array $expected = null): void
     {
-        $this->assertSame($expected ?? $options, (new PusherOptions($options))->toArray());
+        static::assertSame($expected ?? $options, (new PusherOptions($options))->toArray());
     }
 
     public function toArrayProvider(): iterable
@@ -41,9 +46,9 @@ final class PusherOptionsTest extends TestCase
     /**
      * @dataProvider getRecipientIdProvider
      */
-    public function testGetRecipientId(?string $expected, PusherOptions $options)
+    public function testGetRecipientId(?string $expected, PusherOptions $options): void
     {
-        $this->assertSame($expected, $options->getRecipientId());
+        static::assertSame($expected, $options->getRecipientId());
     }
 
     public function getRecipientIdProvider(): iterable
@@ -51,18 +56,6 @@ final class PusherOptionsTest extends TestCase
         yield [null, new PusherOptions()];
         yield [null, (new PusherOptions(['recipient_id' => null]))];
         yield ['foo', (new PusherOptions(['recipient_id' => 'foo']))];
-    }
-
-    /**
-     * @dataProvider setProvider
-     *
-     * @param mixed $value
-     */
-    public function testSet(string $method, string $optionsKey, $value)
-    {
-        $options = (new PusherOptions())->$method($value);
-
-        $this->assertSame($value, $options->toArray()[$optionsKey]);
     }
 
     public function setProvider(): iterable
@@ -73,11 +66,11 @@ final class PusherOptionsTest extends TestCase
     /**
      * @dataProvider fromNotificationProvider
      */
-    public function testFromNotification(array $expected, Notification $notification)
+    public function testFromNotification(array $expected, Notification $notification): void
     {
         $options = PusherOptions::fromNotification($notification);
 
-        $this->assertSame($expected, $options->toArray());
+        static::assertSame($expected, $options->toArray());
     }
 
     public function fromNotificationProvider(): iterable
@@ -86,7 +79,7 @@ final class PusherOptionsTest extends TestCase
 
         yield 'without content + without exception' => [
             [
-                'async' => false
+                'async' => false,
             ],
             new Notification($subject),
         ];

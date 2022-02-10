@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symfony\Component\Notifier\Bridge\Pusher;
 
 use Symfony\Component\Notifier\Message\MessageOptionsInterface;

@@ -1,0 +1,11 @@
+parameters:
+  level: 1
+  excludePaths:
+    - vendor
+    - Tests
+    - phpinsights.php
+    - rector.php
+  fileExtensions:
+    - php
+includes:
+  - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon

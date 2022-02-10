@@ -8,5 +8,5 @@ services:
       - "/var/www/LICENSE"
     working_dir: /var/www
     volumes:
-      - ~/.composer:/root/.composer:rw
+      - ~/.composer:/.composer:rw
       - .:/var/www:rw
