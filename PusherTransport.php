@@ -7,8 +7,8 @@ use Symfony\Component\Notifier\Exception\InvalidArgumentException;
 use Symfony\Component\Notifier\Exception\LogicException;
 use Symfony\Component\Notifier\Exception\TransportException;
 use Symfony\Component\Notifier\Exception\UnsupportedMessageTypeException;
-use Symfony\Component\Notifier\Message\ChatMessage;
 use Symfony\Component\Notifier\Message\MessageInterface;
+use Symfony\Component\Notifier\Message\PushMessage;
 use Symfony\Component\Notifier\Message\SentMessage;
 use Symfony\Component\Notifier\Transport\AbstractTransport;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -36,13 +36,13 @@ final class PusherTransport extends AbstractTransport
 
     public function supports(MessageInterface $message): bool
     {
-        return $message instanceof ChatMessage && (null === $message->getOptions() || $message->getOptions() instanceof PusherOptions);
+        return $message instanceof PushMessage && (null === $message->getOptions() || $message->getOptions() instanceof PusherOptions);
     }
 
     protected function doSend(MessageInterface $message): SentMessage
     {
-        if (!$message instanceof ChatMessage) {
-            throw new UnsupportedMessageTypeException(__CLASS__, ChatMessage::class, $message);
+        if (!$message instanceof PushMessage) {
+            throw new UnsupportedMessageTypeException(__CLASS__, PushMessage::class, $message);
         }
 
         if ($message->getOptions() && !$message->getOptions() instanceof PusherOptions) {

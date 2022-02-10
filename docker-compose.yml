@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  dev:
+    image: composer
+    entrypoint:
+      - tail
+      - "-f"
+      - "/var/www/LICENSE"
+    working_dir: /var/www
+    volumes:
+      - ~/.composer:/root/.composer:rw
+      - .:/var/www:rw

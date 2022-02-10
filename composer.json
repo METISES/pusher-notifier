@@ -19,7 +19,9 @@
         "symfony/notifier": "^5.3|^6.0"
     },
     "require-dev": {
-        "symfony/event-dispatcher": "^4.3|^5.0|^6.0"
+        "roave/security-advisories": "dev-latest",
+        "symfony/event-dispatcher": "^4.3|^5.0|^6.0",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Notifier\\Bridge\\Pusher\\": "" },

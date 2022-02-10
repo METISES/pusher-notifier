@@ -14,6 +14,10 @@ use Symfony\Component\Notifier\Transport\TransportInterface;
  */
 final class PusherTransportFactory extends AbstractTransportFactory
 {
+    private function parseDSN(Dsn $dsn):array{
+
+    }
+
     /**
      * @return PusherTransport
      */
@@ -24,7 +28,7 @@ final class PusherTransportFactory extends AbstractTransportFactory
         }
 
         $options = [
-            'cluster' => $cluster,
+            'cluster' => $dsn->getOption(),
             'useTLS' => true
         ];
 
