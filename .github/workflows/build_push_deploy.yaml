@@ -462,7 +462,7 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          .vendor/bin/phpunit
+          phpunit
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
