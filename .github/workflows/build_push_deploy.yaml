@@ -105,7 +105,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/phpinsights analyse -n --fix --ansi --format=github-action .
+          phpinsights analyse -n --fix --ansi --format=github-action .
   phpstan:
     name: PHP Stan
     runs-on: ubuntu-latest
@@ -155,7 +155,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/phpstan analyse --memory-limit=1024M -c phpstan.neon .
+          phpstan analyse --memory-limit=1024M -c phpstan.neon .
   phan:
     name: Phan
     runs-on: ubuntu-latest
@@ -205,7 +205,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/phan
+          phan
   psalm:
     name: Psalm
     runs-on: ubuntu-latest
@@ -255,7 +255,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/psalm
+          psalm
   php-cs-fixer:
     name: PHP CS Fixer
     runs-on: ubuntu-latest
@@ -305,7 +305,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/php-cs-fixer fix
+          php-cs-fixer fix
   unused:
     name: PHP Unused Scanner
     runs-on: ubuntu-latest
@@ -355,7 +355,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          ./vendor/bin/unused_scanner
+          unused_scanner
   security-check:
     name: Security Check
     runs-on: ubuntu-latest
