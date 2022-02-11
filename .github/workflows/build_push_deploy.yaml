@@ -418,7 +418,7 @@ jobs:
     strategy:
       matrix:
         version: [ 7.3, 7.4, 8.0, 8.1 ]
-    needs: [ rector, phpstan, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
+    needs: [ rector, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
