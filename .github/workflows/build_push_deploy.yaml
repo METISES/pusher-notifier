@@ -4,6 +4,7 @@ on: push
 
 env:
   extensions: gd, pcntl, iconv, curl, intl, xml, mbstring, bcmath, sodium, opcache, zip, redis, ast, apcu
+  versions: [ 7.3, 7.4, 8.0, 8.1 ]
 
 jobs:
   rector:
@@ -11,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -111,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -161,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -211,7 +212,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -261,7 +262,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -311,7 +312,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -361,7 +362,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.versions }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -418,7 +419,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: ${{ env.extensions }}
     needs: [ rector, phpstan, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
     steps:
       - name: Checkout
