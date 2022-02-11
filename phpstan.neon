@@ -7,5 +7,3 @@ parameters:
     - rector.php
   fileExtensions:
     - php
-includes:
-  - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon

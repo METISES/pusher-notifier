@@ -105,7 +105,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          phpinsights analyse -n --fix --ansi --format=github-action .
+          phpinsights analyse -n --ansi --format=github-action .
   phpstan:
     name: PHP Stan
     runs-on: ubuntu-latest
@@ -305,7 +305,7 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          php-cs-fixer fix
+          PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix
   unused:
     name: PHP Unused Scanner
     runs-on: ubuntu-latest
@@ -411,8 +411,7 @@ jobs:
           wget https://raw.githubusercontent.com/marcocesarato/PHP-Antimalware-Scanner/master/dist/scanner --no-check-certificate -O /usr/local/bin/amscanner.phar
           printf "#!/bin/bash\nphp /usr/local/bin/amscanner.phar \$@" > /usr/local/bin/amscanner
           chmod u+x,g+x /usr/local/bin/amscanner.phar /usr/local/bin/amscanner
-          sudo cp scanner-whitelist.json /var/www/scanner-whitelist.json
-          composer amscanner
+          amscanner --no-report --path-whitelist="/var/www/scanner-whitelist.json"
   test:
     name: Test
     runs-on: ubuntu-latest
