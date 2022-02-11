@@ -43,15 +43,6 @@ return [
             'imports_order' => ['class', 'function', 'const'],
             'sort_algorithm' => 'alpha',
         ],
-        //        ObjectCalisthenics\Sniffs\Files\ClassTraitAndInterfaceLengthSniff::class => [
-        //            'maxLength' => 400,
-        //        ],
-        //        ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff::class => [
-        //            'maxCount' => 50,
-        //        ],
-        SlevomatCodingStandard\Sniffs\Files\FunctionLengthSniff::class => [
-            'maxLength' => 50,
-        ],
     ],
     'requirements' => [
         'min-quality' => 90,
