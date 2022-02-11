@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -111,7 +111,7 @@ jobs:
 #    runs-on: ubuntu-latest
 #    strategy:
 #      matrix:
-#        version: [ 7.3, 7.4, 8.0, 8.1 ]
+#        version: [ 8.0, 8.1 ]
 #    steps:
 #      - name: Checkout
 #        uses: actions/checkout@v2
@@ -161,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -211,7 +211,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -311,7 +311,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -361,7 +361,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -417,7 +417,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 7.3, 7.4, 8.0, 8.1 ]
+        version: [ 8.0, 8.1 ]
     needs: [ rector, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
     steps:
       - name: Checkout
