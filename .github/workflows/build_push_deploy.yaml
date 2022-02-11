@@ -97,7 +97,6 @@ jobs:
       - name: Execute
         shell: bash
         run: |
-          cd framework
           ./vendor/bin/phpinsights analyse -n --fix --ansi --format=github-action .
   phpstan:
     name: PHP Stan
@@ -375,16 +374,14 @@ jobs:
       - name: PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
         with:
-          lock: framework/composer.lock
+          lock: composer.lock
       - name: Antimalware Scanner
         shell: bash
         run: |
           wget https://raw.githubusercontent.com/marcocesarato/PHP-Antimalware-Scanner/master/dist/scanner --no-check-certificate -O /usr/local/bin/amscanner.phar
           printf "#!/bin/bash\nphp /usr/local/bin/amscanner.phar \$@" > /usr/local/bin/amscanner
           chmod u+x,g+x /usr/local/bin/amscanner.phar /usr/local/bin/amscanner
-          cd framework
-          sudo mkdir -p /var/www/framework
-          sudo cp scanner-whitelist.json /var/www/framework/scanner-whitelist.json
+          sudo cp scanner-whitelist.json /var/www/scanner-whitelist.json
           composer amscanner
   test:
     name: Test
