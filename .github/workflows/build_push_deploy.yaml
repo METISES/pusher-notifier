@@ -51,7 +51,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -101,7 +101,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -151,7 +151,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -201,7 +201,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -251,7 +251,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -301,7 +301,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -351,7 +351,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Execute
         shell: bash
         run: |
@@ -400,7 +400,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
         with:
@@ -458,7 +458,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --no-dev
+          composer install
       - name: Test
         shell: bash
         run: |
