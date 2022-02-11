@@ -5,10 +5,6 @@ declare(strict_types=1);
 return [
     'preset' => 'symfony',
     'ide' => 'phpstorm',
-    'exclude' => [
-        '*FeatureContext.php',
-        '*bootstrap.php',
-    ],
     'add' => [
         NunoMaduro\PhpInsights\Domain\Metrics\Code\Code::class => [
             SlevomatCodingStandard\Sniffs\ControlStructures\RequireYodaComparisonSniff::class,
@@ -64,5 +60,4 @@ return [
         'min-style' => 90,
         'disable-security-check' => false,
     ],
-    'threads' => null,
 ];
