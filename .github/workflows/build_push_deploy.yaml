@@ -1,0 +1,446 @@
+name: Build, Push and Deploy
+
+on: push
+
+env:
+  extensions: gd, pcntl, iconv, curl, intl, xml, mbstring, bcmath, sodium, opcache, zip, redis, ast, apcu
+
+jobs:
+  rector:
+    name: Rector
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/rector process .
+  phpinsights:
+    name: PHP Insights
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          cd framework
+          ./vendor/bin/phpinsights analyse -n --fix --ansi --format=github-action .
+  phpstan:
+    name: PHP Stan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/phpstan analyse --memory-limit=1024M -c phpstan.neon .
+  phan:
+    name: Phan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/phan
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/psalm
+  php-cs-fixer:
+    name: PHP CS Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/php-cs-fixer fix
+  unused:
+    name: PHP Unused Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Execute
+        shell: bash
+        run: |
+          ./vendor/bin/unused_scanner
+  security-check:
+    name: Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          tools: symfony-cli
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: PHP Security Checker
+        uses: symfonycorp/security-checker-action@v2
+        with:
+          lock: framework/composer.lock
+      - name: Antimalware Scanner
+        shell: bash
+        run: |
+          wget https://raw.githubusercontent.com/marcocesarato/PHP-Antimalware-Scanner/master/dist/scanner --no-check-certificate -O /usr/local/bin/amscanner.phar
+          printf "#!/bin/bash\nphp /usr/local/bin/amscanner.phar \$@" > /usr/local/bin/amscanner
+          chmod u+x,g+x /usr/local/bin/amscanner.phar /usr/local/bin/amscanner
+          cd framework
+          sudo mkdir -p /var/www/framework
+          sudo cp scanner-whitelist.json /var/www/framework/scanner-whitelist.json
+          composer amscanner
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: [ rector, phpstan, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: ${{ env.extensions }}
+          tools: symfony-cli
+        env:
+          update: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(cd framework && composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install --prefer-dist
+      - name: Test
+        shell: bash
+        run: |
+          .vendor/bin/phpunit
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [ test ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
