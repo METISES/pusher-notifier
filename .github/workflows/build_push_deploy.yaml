@@ -4,7 +4,6 @@ on: push
 
 env:
   extensions: gd, pcntl, iconv, curl, intl, xml, mbstring, bcmath, sodium, opcache, zip, redis, ast, apcu
-  versions: [ 7.3, 7.4, 8.0, 8.1 ]
 
 jobs:
   rector:
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -52,7 +51,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -62,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -102,7 +101,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -112,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -152,7 +151,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -162,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -202,7 +201,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -212,7 +211,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -252,7 +251,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -262,7 +261,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -302,7 +301,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -312,7 +311,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -352,7 +351,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Execute
         shell: bash
         run: |
@@ -362,7 +361,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.versions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -401,7 +400,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
         with:
@@ -419,7 +418,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ env.extensions }}
+        version: [ 7.3, 7.4, 8.0, 8.1 ]
     needs: [ rector, phpstan, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
     steps:
       - name: Checkout
@@ -460,7 +459,7 @@ jobs:
       - name: Composer Install
         shell: bash
         run: |
-          composer install --prefer-dist --no-dev
+          composer install --no-dev
       - name: Test
         shell: bash
         run: |
