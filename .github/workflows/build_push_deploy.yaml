@@ -9,6 +9,9 @@ jobs:
   rector:
     name: Rector
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -19,7 +22,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -31,7 +34,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -55,6 +58,9 @@ jobs:
   phpinsights:
     name: PHP Insights
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -65,7 +71,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -77,7 +83,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -101,6 +107,9 @@ jobs:
   phpstan:
     name: PHP Stan
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -111,7 +120,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -123,7 +132,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -147,6 +156,9 @@ jobs:
   phan:
     name: Phan
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -157,7 +169,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -169,7 +181,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -193,6 +205,9 @@ jobs:
   psalm:
     name: Psalm
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -203,7 +218,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -215,7 +230,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -239,6 +254,9 @@ jobs:
   php-cs-fixer:
     name: PHP CS Fixer
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -249,7 +267,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -261,7 +279,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -285,6 +303,9 @@ jobs:
   unused:
     name: PHP Unused Scanner
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -295,7 +316,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -307,7 +328,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
         env:
           update: true
@@ -331,6 +352,9 @@ jobs:
   security-check:
     name: Security Check
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -341,7 +365,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -353,7 +377,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           tools: symfony-cli
         env:
@@ -386,6 +410,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
     needs: [ rector, phpstan, phpinsights, phan, psalm, php-cs-fixer, unused, security-check ]
     steps:
       - name: Checkout
@@ -397,7 +424,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           key: 1
       - name: Cache extensions
@@ -409,7 +436,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.version }}
           extensions: ${{ env.extensions }}
           tools: symfony-cli
         env:
