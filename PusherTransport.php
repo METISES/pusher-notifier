@@ -49,23 +49,18 @@ final class PusherTransport extends AbstractTransport
             throw new UnsupportedMessageTypeException(__CLASS__, PushMessage::class, $message);
         }
 
-        if ($message->getOptions() && !$message->getOptions() instanceof PusherOptions) {
+        $options = $message->getOptions();
+
+        if (!$options instanceof PusherOptions) {
             throw new LogicException(sprintf('The "%s" transport only supports instances of "%s" for options.', __CLASS__, PusherOptions::class));
         }
 
-        if (!($options = $message->getOptions()) && $notification = $message->getNotification()) {
-            $options = PusherOptions::fromNotification($notification);
-        }
-
         try {
-            $response = $this->pusherClient->trigger($options['channel'], $message->getSubject(), json_encode($message->getContent(), JSON_THROW_ON_ERROR));
+            $this->pusherClient->trigger($options->getChannels(), $message->getSubject(), $message->getContent(), [], true);
         } catch (Throwable) {
             throw new RuntimeException('An error occurred at Pusher Notifier Transport');
         }
 
-        $sentMessage = new SentMessage($message, $this->__toString());
-        $sentMessage->setMessageId($response['ts']);
-
-        return $sentMessage;
+        return new SentMessage($message, $this->__toString());
     }
 }

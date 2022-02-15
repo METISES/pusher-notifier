@@ -44,5 +44,12 @@
       "@auto-scripts"
     ]
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "symfony/thanks": true
+    }
+  }
 }

@@ -21,17 +21,17 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 final class PusherTransportTest extends TransportTestCase
 {
+    public function toStringProvider(): iterable
+    {
+        yield ['pusher://key:secret@app?server=mt1', $this->createTransport()];
+    }
+
     /**
      * @return PusherTransport
      */
     public function createTransport(HttpClientInterface $client = null): TransportInterface
     {
         return new PusherTransport(new Pusher('key', 'secret', 'app'), $client ?? $this->createMock(HttpClientInterface::class));
-    }
-
-    public function toStringProvider(): iterable
-    {
-        yield ['pusher://key:secret@app?server=mt1', $this->createTransport()];
     }
 
     public function supportedMessagesProvider(): iterable

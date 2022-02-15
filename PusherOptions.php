@@ -5,35 +5,31 @@ declare(strict_types=1);
 namespace Symfony\Component\Notifier\Bridge\Pusher;
 
 use Symfony\Component\Notifier\Message\MessageOptionsInterface;
-use Symfony\Component\Notifier\Notification\Notification;
 
 /**
  * @author Yasmany Cubela Medina <yasmanycm@gmail.com>
  */
 final class PusherOptions implements MessageOptionsInterface
 {
-    private $options;
+    private array $channels;
 
-    public function __construct(array $options = ['async' => false])
+    public function __construct(array $channels)
     {
-        $this->options = $options;
-    }
-
-    public static function fromNotification(Notification $notification): self
-    {
-        return new self();
+        $this->channels = $channels;
     }
 
     public function toArray(): array
     {
-        $options = $this->options;
-        unset($options['recipient_id']);
-
-        return $options;
+        return $this->channels;
     }
 
     public function getRecipientId(): ?string
     {
-        return $this->options['recipient_id'] ?? null;
+        return $this->channels[0];
+    }
+
+    public function getChannels(): array
+    {
+        return $this->channels;
     }
 }

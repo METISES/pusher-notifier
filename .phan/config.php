@@ -242,7 +242,7 @@ return [
         'PhanUndeclaredMethod',
         'PhanUndeclaredClassMethod',
         'PhanPossiblyUndeclaredMethod',
-        'PhanCompatibleNonCapturingCatch'
+        'PhanCompatibleNonCapturingCatch',
     ],
 
     // A regular expression to match files to be excluded
@@ -340,7 +340,7 @@ return [
         'PHPDocToRealTypesPlugin',
         'PreferNamespaceUsePlugin',
         'StrictComparisonPlugin',
-        'EmptyMethodAndFunctionPlugin'
+        'EmptyMethodAndFunctionPlugin',
     ],
 
     // A list of directories that should be parsed for class and

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symfony\Component\Notifier\Bridge\Pusher;
 
 use Pusher\Pusher;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Notifier\Exception\MissingRequiredOptionException;
 use Symfony\Component\Notifier\Exception\UnsupportedSchemeException;
 use Symfony\Component\Notifier\Transport\AbstractTransportFactory;
@@ -14,6 +15,7 @@ use Symfony\Component\Notifier\Transport\TransportInterface;
 /**
  * @author Yasmany Cubela Medina <yasmanycm@gmail.com>
  */
+#[Autoconfigure(tags: ['texter.transport_factory'])]
 final class PusherTransportFactory extends AbstractTransportFactory
 {
     public function create(Dsn $dsn): TransportInterface

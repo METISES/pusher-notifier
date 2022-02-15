@@ -4,9 +4,9 @@
        xmlns="https://getpsalm.org/schema/config"
        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd">
     <projectFiles>
-        <directory name=".." />
+        <directory name=".."/>
         <ignoreFiles>
-            <directory name=".git" />
+            <directory name=".git"/>
             <directory name="vendor"/>
             <directory name="Tests"/>
             <file name="phpinsights.php"/>
@@ -19,6 +19,6 @@
         <UndefinedDocblockClass errorLevel="suppress"/>
         <MissingFile errorLevel="suppress"/>
         <UndefinedClass errorLevel="suppress"/>
-        <PluginIssue name="RepositoryStringShortcut" errorLevel="suppress" />
+        <PluginIssue name="RepositoryStringShortcut" errorLevel="suppress"/>
     </issueHandlers>
 </psalm>
