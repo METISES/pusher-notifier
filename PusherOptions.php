@@ -25,7 +25,7 @@ final class PusherOptions implements MessageOptionsInterface
 
     public function getRecipientId(): ?string
     {
-        return $this->channels[0];
+        return null;
     }
 
     public function getChannels(): array
