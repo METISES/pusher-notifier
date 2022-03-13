@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" errorLevel="7" totallyTyped="true"
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" errorLevel="7"
        strictBinaryOperands="true" useDocblockPropertyTypes="true"
        xmlns="https://getpsalm.org/schema/config"
        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd">
