@@ -1,0 +1,14 @@
+crossplane-mongodb-atlas:
+  name: metises-user-ms
+  provider: metises
+  orgId: 60787dee014ab24729f11f8b
+  clusters:
+    - name: test
+      size: M2
+      diskSize: 10
+      regions:
+        - CENTRAL_US
+      databases:
+        - name: metises
+          username: admin
+          password: a9sd8a0s8d0as8d0a8dsasd908a0s9d80a9s8d0a
