@@ -20,7 +20,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::UNWRAP_COMPAT);
     $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::EARLY_RETURN);
-    $containerConfigurator->import(SetList::ORDER);
     $containerConfigurator->import(SetList::NAMING);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
     $containerConfigurator->import(SetList::MONOLOG_20);
