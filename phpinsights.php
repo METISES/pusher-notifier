@@ -32,6 +32,7 @@ return [
         NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses::class,
         NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits::class,
+        SlevomatCodingStandard\Sniffs\Functions\StaticClosureSniff::class,
     ],
     'config' => [
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class => [
