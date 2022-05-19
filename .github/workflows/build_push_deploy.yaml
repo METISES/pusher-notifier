@@ -1,6 +1,13 @@
 name: Build, Push and Deploy
 
-on: push
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: true
 
 env:
   extensions: gd, pcntl, iconv, curl, intl, xml, mbstring, bcmath, sodium, opcache, zip, redis, ast, apcu
