@@ -3,7 +3,7 @@ name: Build, Push and Deploy
 on:
   push:
     paths-ignore:
-      - 'devops'
+      - 'devops/**'
   workflow_dispatch:
     inputs:
       debug_enabled:
