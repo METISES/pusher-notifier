@@ -411,7 +411,7 @@ jobs:
         run: |
           composer install
       - name: PHP Security Checker
-        uses: symfonycorp/security-checker-action@v2
+        uses: symfonycorp/security-checker-action@v3
         with:
           lock: composer.lock
       - name: Antimalware Scanner
