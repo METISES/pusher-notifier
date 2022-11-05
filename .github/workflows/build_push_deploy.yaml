@@ -49,12 +49,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -99,12 +100,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -115,56 +117,57 @@ jobs:
         shell: bash
         run: |
           phpinsights analyse -n --ansi --format=github-action .
-  #  phpstan:
-  #    name: PHP Stan
-  #    runs-on: ubuntu-latest
-  #    strategy:
-  #      matrix:
-  #        version: [ 8.0, 8.1 ]
-  #    steps:
-  #      - name: Checkout
-  #        uses: actions/checkout@v3
-  #        with:
-  #          token: ${{ secrets.GH_TOKEN }}
-  #          submodules: recursive
-  #      - name: Setup cache environment
-  #        id: extcache
-  #        uses: shivammathur/cache-extensions@v1
-  #        with:
-  #          php-version: ${{ matrix.version }}
-  #          extensions: ${{ env.extensions }}
-  #          key: 1
-  #      - name: Cache extensions
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: ${{ steps.extcache.outputs.dir }}
-  #          key: ${{ steps.extcache.outputs.key }}
-  #          restore-keys: ${{ steps.extcache.outputs.key }}
-  #      - name: Setup PHP with PECL extension
-  #        uses: shivammathur/setup-php@v2
-  #        with:
-  #          php-version: ${{ matrix.version }}
-  #          extensions: ${{ env.extensions }}
-  #          tools: phpstan
-  #        env:
-  #          update: true
-  #      - name: Get composer cache directory
-  #        id: composer-cache
-  #        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-  #      - name: Cache dependencies
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: ${{ steps.composer-cache.outputs.dir }}
-  #          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-  #          restore-keys: ${{ runner.os }}-composer-
-  #      - name: Composer Install
-  #        shell: bash
-  #        run: |
-  #          composer install
-  #      - name: Execute
-  #        shell: bash
-  #        run: |
-  #          phpstan analyse --memory-limit=1024M -c phpstan.neon .
+  phpstan:
+    name: PHP Stan
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 8.0, 8.1 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.version }}
+          extensions: ${{ env.extensions }}
+          key: 1
+      - name: Cache extensions
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.version }}
+          extensions: ${{ env.extensions }}
+          tools: phpstan
+        env:
+          update: true
+      - name: Get composer cache directory
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.COMPOSER_DIR }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Composer Install
+        shell: bash
+        run: |
+          composer install
+      - name: Execute
+        shell: bash
+        run: |
+          phpstan analyse --memory-limit=1024M -c phpstan.neon .
   phan:
     name: Phan
     runs-on: ubuntu-latest
@@ -199,12 +202,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -249,12 +253,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -299,12 +304,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -349,12 +355,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -398,12 +405,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
@@ -456,12 +464,13 @@ jobs:
         env:
           update: true
       - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        shell: bash
+        run: |
+          echo "COMPOSER_DIR=$(cd framework && composer config cache-files-dir)" >> $GITHUB_ENV
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ env.COMPOSER_DIR }}
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Composer Install
